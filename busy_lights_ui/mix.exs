@@ -5,7 +5,7 @@ defmodule BusyLightsUi.MixProject do
     [
       app: :busy_lights_ui,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,17 +33,17 @@ defmodule BusyLightsUi.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.1"},
-      {:phoenix_live_view, "~> 0.12.0"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_live_view, "~> 0.15.7"},
       {:floki, ">= 0.0.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.2.0"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:phoenix_html, "~> 2.14"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.4.0"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5"},
+      {:gettext, "~> 0.18"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"},
     ]
   end
 
