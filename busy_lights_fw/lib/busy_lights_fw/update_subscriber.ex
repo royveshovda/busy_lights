@@ -29,4 +29,10 @@ defmodule BusyLightsFw.UpdateSubscriber do
     Lights.green()
     {:noreply, state}
   end
+
+  def handle_info({:lights, :blank}, state) do
+    Logger.info("Got Blank")
+    Lights.blank()
+    {:noreply, state}
+  end
 end

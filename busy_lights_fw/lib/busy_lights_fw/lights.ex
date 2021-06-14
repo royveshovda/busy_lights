@@ -45,4 +45,12 @@ defmodule Lights do
 
     Blinkt.show()
   end
+
+  def blank() do
+    1..8
+    |> Enum.to_list()
+    |> Enum.map(fn led -> Blinkt.set_led(led, 0, 0, 0, 0.0) end)
+
+    Blinkt.show()
+  end
 end

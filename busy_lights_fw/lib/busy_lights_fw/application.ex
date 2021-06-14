@@ -42,6 +42,7 @@ defmodule BusyLightsFw.Application do
       # {BusyLightsFw.Worker, arg},
       {Phoenix.PubSub, name: :hub},
       Blinkt,
+      Buttons,
       BusyLightsFw.Clustering,
       #{Cluster.Supervisor, [topologies, [name: BusyLightsFw.ClusterSupervisor]]},
       BusyLightsFw.UpdateSubscriber,
