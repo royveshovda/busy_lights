@@ -45,6 +45,8 @@ defmodule BusyLightsFw.MixProject do
       {:ring_logger, "~> 0.8"},
       {:toolshed, "~> 0.2"},
       {:phoenix_pubsub, "~> 2.0"},
+      #{:libcluster, "~> 3.3"},
+      {:libcluster, github: "bitwalker/libcluster"},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.4", targets: @all_targets},

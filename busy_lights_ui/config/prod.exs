@@ -11,7 +11,8 @@ use Mix.Config
 # before starting your production server.
 config :busy_lights_ui, BusyLightsUiWeb.Endpoint,
   #url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  check_origin: false # TODO: Consider to add back later
 
 # Do not print debug messages in production
 config :logger, level: :info

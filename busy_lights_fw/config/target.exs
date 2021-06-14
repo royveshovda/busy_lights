@@ -14,6 +14,12 @@ config :shoehorn,
 
 config :nerves_runtime, :kernel, use_system_registry: false
 
+
+config :nerves,
+  erlinit: [
+    hostname_pattern: "nerves-%s"
+  ]
+
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
 # on configuring nerves_firmware_ssh.

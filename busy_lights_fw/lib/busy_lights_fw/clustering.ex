@@ -36,7 +36,7 @@ defmodule BusyLightsFw.Clustering do
   end
 
   defp start_pinging() do
-    [:"nerves@192.168.50.123", :"nerves@192.168.50.218", :"nerves@192.168.50.224", :"nerves@192.168.50.114", :"nerves@192.168.50.211"]
+    [:"nerves@10.223.80.101", :"nerves@10.223.80.102", :"nerves@10.223.80.103", :"nerves@10.223.80.104", :"nerves@10.223.80.105"]
     |> Enum.map(fn node_name -> Process.send_after(self(), {:ping, node_name}, 10000) end)
   end
 

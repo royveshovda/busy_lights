@@ -34,6 +34,8 @@ defmodule BusyLightsFw.Application do
   end
 
   def children(_target) do
+    topologies = Application.get_env(:libcluster, :topologies)
+    Logger.info(inspect(topologies))
     [
       # Children for all targets except host
       # Starts a worker by calling: BusyLightsFw.Worker.start_link(arg)
@@ -41,6 +43,7 @@ defmodule BusyLightsFw.Application do
       {Phoenix.PubSub, name: :hub},
       Blinkt,
       BusyLightsFw.Clustering,
+      #{Cluster.Supervisor, [topologies, [name: BusyLightsFw.ClusterSupervisor]]},
       BusyLightsFw.UpdateSubscriber,
     ]
   end
@@ -58,6 +61,7 @@ defmodule BusyLightsFw.Application do
       Logger.debug("wlan0 configured, skipping VintageNetWizard")
       Application.ensure_all_started(:busy_lights_ui)
       BusyLightsFw.Clustering.connect()
+      Lights.white()
     end
   end
 
@@ -66,6 +70,8 @@ defmodule BusyLightsFw.Application do
     Logger.info("VintageNetWizard stopped")
     Application.ensure_all_started(:busy_lights_ui)
     Blinkt.clear()
+    Lights.white()
+    # TODO: Query other nodes for status
     BusyLightsFw.Clustering.connect()
   end
 

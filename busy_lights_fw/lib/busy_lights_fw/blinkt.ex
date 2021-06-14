@@ -4,6 +4,8 @@ defmodule Blinkt do
   use Bitwise
   alias Circuits.GPIO
 
+  require Logger
+
   # The DAT-pin is pin 23
   @dat 23
   # The CLK-pin is pin 24
@@ -16,6 +18,8 @@ defmodule Blinkt do
   @type brightness :: float()
   @type colours :: tuple()
   @type led_array :: map()
+
+  @sleeptime 1
 
   def start_link(_opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -55,19 +59,6 @@ defmodule Blinkt do
     raise "Values for LED #{led_num} out of range:" <>
           " red: #{r}, green: #{g}, blue: #{b}, brightness: #{l}"
   end
-
-  # @spec get_led(led_num()) :: colours()
-  # def get_led(idx) do
-  #   Agent.get(__MODULE__,  fn state ->
-  #     Map.get(state, idx)
-  #   end)
-  # end
-
-  # @spec dump() :: led_array()
-  # def dump do
-  #   Agent.get(__MODULE__, fn state -> state end)
-  # end
-
 
   def clear() do
     GenServer.call(__MODULE__, :clear)
@@ -137,14 +128,16 @@ defmodule Blinkt do
 
   defp _write_bit(bit, dat_pin, clk_pin) do
     GPIO.write(dat_pin, bit)
-    :timer.sleep(1)
+    :timer.sleep(@sleeptime)
     _pulse_gpio_pin(clk_pin)
-    :timer.sleep(1)
+    :timer.sleep(@sleeptime)
   end
 
   defp _pulse_gpio_pin(p) do
     GPIO.write(p, 1)
+    :timer.sleep(@sleeptime)
     GPIO.write(p, 0)
+    :timer.sleep(@sleeptime)
     :ok
   end
 end

@@ -7,6 +7,16 @@ defmodule Lights do
     Blinkt.show()
   end
 
+  def white() do
+    [1,3,6,8]
+    |> Enum.map(fn led -> Blinkt.set_led(led, 255,255,255,0.1) end)
+
+    [2,4,5,7]
+    |> Enum.map(fn led -> Blinkt.set_led(led, 0, 0, 0, 0.0) end)
+
+    Blinkt.show()
+  end
+
   def red() do
     1..8
     |> Enum.to_list()
