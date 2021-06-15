@@ -43,12 +43,30 @@ if keys == [],
 config :nerves_firmware_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
 
+
+key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "wpa_psk"
+
+
 # Configure the network using vintage_net
 # See https://github.com/nerves-networking/vintage_net for more information
 config :vintage_net,
   regulatory_domain: "NO",
   config: [
-    {"usb0", %{type: VintageNetDirect}}
+    {"usb0", %{type: VintageNetDirect}},
+    {"wlan0",
+     %{
+       type: VintageNetWiFi,
+       vintage_net_wifi: %{
+         networks: [
+           %{
+              key_mgmt: String.to_atom(key_mgmt),
+              ssid: System.get_env("NERVES_NETWORK_SSID"),
+              psk: System.get_env("NERVES_NETWORK_PSK")
+           }
+         ]
+       },
+       ipv4: %{method: :dhcp}
+     }}
   ]
 
 config :vintage_net_wizard,

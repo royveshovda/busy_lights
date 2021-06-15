@@ -39,7 +39,8 @@ defmodule BusyLightsFw.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:busy_lights_ui, path: "../busy_lights_ui", runtime: false},
+      #{:busy_lights_ui, path: "../busy_lights_ui", runtime: false},
+      {:busy_lights_ui, path: "../busy_lights_ui", targets: @all_targets, env: Mix.env()},
       {:nerves, "~> 1.7", runtime: false},
       {:shoehorn, "~> 0.7"},
       {:ring_logger, "~> 0.8"},
@@ -72,8 +73,8 @@ defmodule BusyLightsFw.MixProject do
       cookie: "#{@app}_cookie",
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble],
-      strip_beams: Mix.env() == :prod,
-      applications: [busy_lights_ui: :load]
+      strip_beams: Mix.env() == :prod#,
+      #applications: [busy_lights_ui: :load]
     ]
   end
 end

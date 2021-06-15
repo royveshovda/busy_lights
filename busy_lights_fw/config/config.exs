@@ -5,19 +5,28 @@
 # is restricted to this project.
 import Config
 
-import_config("../../busy_lights_ui/config/config.exs")
+#import_config("../../busy_lights_ui/config/config.exs")
 #import_config("../../busy_lights_ui/config/prod.exs")
 
+
 config :busy_lights_ui, BusyLightsUiWeb.Endpoint,
-  code_reloader: false,
+url: [host: "nervesl.local", port: 80],
   http: [
-      port: 80,
-      transport_options: [socket_opts: [:inet6]]
-    ],
-  load_from_system_env: false,
+    port: 80,
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  secret_key_base: "yeZWsz7Q7FlbEeTuMWKFD+eVOGlmdCqMIH5JLAKxrvyaeRmegB+p2KSIiOz94u2f",
+  live_view: [signing_salt: "AAAABjEyERMkxgDh"],
+  check_origin: false,
+  root: Path.dirname(__DIR__),
   server: true,
-  url: [host: "nervesl.local", port: 80],
-  secret_key_base: "yeZWsz7Q7FlbEeTuMWKFD+eVOGlmdCqMIH5JLAKxrvyaeRmegB+p2KSIiOz94u2f"
+  render_errors: [view: UiWeb.ErrorView, accepts: ~w(html json)],
+  pubsub_server: Ui.PubSub,
+  load_from_system_env: false,
+  code_reloader: false,
+  cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :phoenix, :json_library, Jason
 
 config :busy_lights_fw, target: Mix.target()
 
@@ -47,14 +56,7 @@ config :libcluster,
         broadcast_only: true]]]
 
 config :libcluster,
-  debug: true
-
-# config :libcluster,
-#   topologies: [
-#     epmd_example: [
-#       strategy: Elixir.Cluster.Strategy.Epmd,
-#       config: [
-#         hosts: [:"nerves@10.223.80.101", :"nerves@10.223.80.102", :"nerves@10.223.80.103", :"nerves@10.223.80.104", :"nerves@10.223.80.105"]]]]
+  debug: false
 
 # Use Ringlogger as the logger backend and remove :console.
 # See https://hexdocs.pm/ring_logger/readme.html for more information on

@@ -34,4 +34,12 @@ defmodule BusyLightsUiWeb.PageLive do
     Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :green})
     {:noreply, socket}
   end
+
+  def handle_event("blank_button", _value, socket) do
+    IO.puts("Blank")
+
+    hub = :hub # TODO: Get from config
+    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :blank})
+    {:noreply, socket}
+  end
 end

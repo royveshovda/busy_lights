@@ -1,6 +1,5 @@
 defmodule Buttons do
   use GenServer
-  alias Circuits.GPIO
 
   require Logger
 
@@ -34,7 +33,6 @@ defmodule Buttons do
     {:ok, state}
   end
 
-  @impl true
   def handle_info({:circuits_gpio, @red, _stamp, 0}, state) do
     Logger.info("Red pin falling")
     #Lights.red()

@@ -6,24 +6,37 @@ defmodule BusyLightsFw.Clustering do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
-  def connect() do
-    GenServer.call(__MODULE__, :connect)
-  end
-
   def init(_opts) do
-    state = %{}
+    state = %{running: false}
     Logger.info("Clustering server started")
+    VintageNet.subscribe(["interface", "wlan0", "addresses"])
+
+    # TODO: Check if has IP already set
+    # Start Cluster.SuperVisor if so
+
     {:ok, state}
   end
 
-  def handle_call(:connect, _from, state) do
-    Process.send_after(self(), :connect_delayed, 60000)
-    {:reply, :ok, state}
+  def handle_info({VintageNet, ["interface", "wlan0", "addresses"], _old_value, new_value, _metadata}, %{running: running} = state) do
+    #Logger.debug("New WLAN0 UPDATE: old_value: #{inspect(old_value)}, new_value: #{inspect(new_value)}")
+    Logger.debug("New WLAN0 IP UPDATE: #{inspect(new_value)}")
+
+    ip_v4_addresses = Enum.filter(new_value, fn x -> x.family == :inet end)
+
+    state =
+      case length(ip_v4_addresses) > 0 do # Only use if IPv4 set
+        true ->
+          prepare_node(running, hd(ip_v4_addresses))
+          %{state | running: true}
+      _ -> state
+    end
+
+
+    {:noreply, state}
   end
 
-  def handle_info(:connect_delayed, state) do
-    prepare_node()
-    start_pinging()
+  def handle_info({VintageNet, property_name, old_value, new_value, metadata}, state) do
+    Logger.debug("New UPDATE: Property_name: #{inspect(property_name)}, old_value: #{inspect(old_value)}, new_value: #{inspect(new_value)}, meta_data: #{inspect(metadata)}")
     {:noreply, state}
   end
 
@@ -35,26 +48,52 @@ defmodule BusyLightsFw.Clustering do
     {:noreply, state}
   end
 
-  defp start_pinging() do
-    [:"nerves@10.223.80.101", :"nerves@10.223.80.102", :"nerves@10.223.80.103", :"nerves@10.223.80.104", :"nerves@10.223.80.105"]
-    |> Enum.map(fn node_name -> Process.send_after(self(), {:ping, node_name}, 10000) end)
+  defp start_epmd(true) do
+    # Do nothing
+    :ok
   end
 
-  defp prepare_node() do
+  defp start_epmd(false) do
+    case System.cmd("epmd", ["-daemon"]) do
+      {:error, {:already_started, _pid}} -> Logger.info("EPMD Already started")
+      {"", 0} -> Logger.info("EPMD Started")
+      _ -> Logger.warn("Unknown EPMD start status")
+    end
+    :ok
+  end
+
+  defp start_libcluster(true) do
+    # Do nothing
+    :ok
+  end
+
+  defp start_libcluster(false) do
+    topologies = Application.get_env(:libcluster, :topologies)
+    Cluster.Supervisor.start_link([topologies])
+    :ok
+  end
+
+
+
+
+
+  defp prepare_node(running, ip_v4_addresse) do
     Logger.info("Trying to prepare for clustering")
-    {"", 0} = System.cmd("epmd", ["-daemon"])
+    start_epmd(running)
 
-    {:ok, addrs} = :inet.getifaddrs()
-    [{'wlan0', details}] = addrs |> Enum.filter fn {nic, _details} -> nic == 'wlan0' end
-    [_,{:addr, ip},_,_,_,_,_] = details
+    ip = ip_v4_addresse.address
     host = Tuple.to_list(ip) |> Enum.join(".")
-
-
-    #{:ok, hn} = :inet.gethostname()
-    #node_name = "nerves@" <> to_string(hn) <> ".local" |> String.to_atom
     node_name = "nerves@" <> host |> String.to_atom
 
+    case Node.alive?() do
+      true -> Node.stop()
+      _ -> :ok
+    end
+
     {:ok, _pid} = Node.start(node_name)
+
+    # TODO: Start Clustering
+    start_libcluster(running)
 
     Node.set_cookie(:super_secret_123)
 
