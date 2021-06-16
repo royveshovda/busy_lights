@@ -14,8 +14,8 @@ To start your Nerves app:
     mix phx.digest
     cd ../busy_lights_fw
     export MIX_TARGET=rpi0
+    mix deps.get
     export NERVES_NETWORK_SSID=your_wifi_name
     export NERVES_NETWORK_PSK=your_wifi_password
-    mix deps.get
     mix firmware
     mix firmware.burn

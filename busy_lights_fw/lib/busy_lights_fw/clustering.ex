@@ -27,6 +27,7 @@ defmodule BusyLightsFw.Clustering do
       case length(ip_v4_addresses) > 0 do # Only use if IPv4 set
         true ->
           prepare_node(running, hd(ip_v4_addresses))
+          announce_running()
           %{state | running: true}
       _ -> state
     end
@@ -62,6 +63,10 @@ defmodule BusyLightsFw.Clustering do
     :ok
   end
 
+  defp announce_running() do
+    BusyLightsFw.LightKeeper.connected()
+  end
+
   defp start_libcluster(true) do
     # Do nothing
     :ok
@@ -72,10 +77,6 @@ defmodule BusyLightsFw.Clustering do
     Cluster.Supervisor.start_link([topologies])
     :ok
   end
-
-
-
-
 
   defp prepare_node(running, ip_v4_addresse) do
     Logger.info("Trying to prepare for clustering")
@@ -94,9 +95,7 @@ defmodule BusyLightsFw.Clustering do
 
     # TODO: Start Clustering
     start_libcluster(running)
-
     Node.set_cookie(:super_secret_123)
-
     Logger.info("Done preparing for clustering")
   end
 end
