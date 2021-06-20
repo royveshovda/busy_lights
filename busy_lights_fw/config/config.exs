@@ -42,7 +42,8 @@ config :nerves, source_date_epoch: "1589200147"
 
 config :nerves_ssh,
     authorized_keys: [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMx6Vq8mR7CnULr3TRINTf8usCoL4bgTYs2e0HIs2V7v"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMx6Vq8mR7CnULr3TRINTf8usCoL4bgTYs2e0HIs2V7v", #TR
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc2RR2mR8EtzqycnZOByksenaWAaVTIP31yUe/KbawT" #Dell
     ]
 
 config :libcluster,
