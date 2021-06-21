@@ -65,7 +65,7 @@ config :libcluster,
 
 config :logger, backends: [RingLogger]
 
-config :busy_lights_fw, lights_pub_sub_hub: :hub
+config :busy_lights_ui, lights_module: Lights
 
 if Mix.target() != :host do
   import_config "target.exs"

@@ -8,9 +8,8 @@ defmodule BusyLightsUiWeb.PageLive do
     lights =
       case connected?(socket) do
         true ->
+          Phoenix.PubSub.subscribe(BusyLightsUi.PubSub, "lights_update")
           BusyLightsUi.LightKeeper.get_light
-          hub = Application.get_env(:busy_lights_ui, :lights_pub_sub_hub)
-          Phoenix.PubSub.subscribe(hub, "lights_update")
         _ -> :blank # default value
       end
 
@@ -23,33 +22,29 @@ defmodule BusyLightsUiWeb.PageLive do
   @impl true
   def handle_event("red_button", _value, socket) do
     Logger.debug("Button pressed: RED")
-    hub = Application.get_env(:busy_lights_ui, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :red})
+    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :red})
     {:noreply, socket}
   end
 
   def handle_event("yellow_button", _value, socket) do
     Logger.debug("Button pressed: YELLOW")
-    hub = Application.get_env(:busy_lights_ui, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :yellow})
+    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :yellow})
     {:noreply, socket}
   end
 
   def handle_event("green_button", _value, socket) do
     Logger.debug("Button pressed: GREEN")
-    hub = Application.get_env(:busy_lights_ui, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :green})
+    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :green})
     {:noreply, socket}
   end
 
   def handle_event("blank_button", _value, socket) do
     Logger.debug("Button pressed: BLANK")
-    hub = Application.get_env(:busy_lights_ui, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :blank})
+    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :blank})
     {:noreply, socket}
   end
 
-
+  @impl true
   def handle_info({:lights, :red}, socket) do
     {:noreply, assign(socket, lights: :red)}
   end

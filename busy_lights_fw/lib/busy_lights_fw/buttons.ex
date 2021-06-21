@@ -35,30 +35,22 @@ defmodule Buttons do
 
   def handle_info({:circuits_gpio, @red, _stamp, 0}, state) do
     Logger.info("Red pin falling")
-    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :red})
+    BusyLightUi.LightKeeper.publish_red()
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @yellow, _stamp, 0}, state) do
     Logger.info("Yellow pin falling")
-    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :yellow})
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @green, _stamp, 0}, state) do
     Logger.info("Green pin falling")
-    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :green})
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @black, _stamp, 0}, state) do
     Logger.info("Black pin falling")
-    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
-    Phoenix.PubSub.broadcast(hub, "lights_update", {:lights, :blank})
-
     {:noreply, state}
   end
 
