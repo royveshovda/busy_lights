@@ -64,7 +64,7 @@ defmodule BusyLightsFw.Clustering do
   end
 
   defp announce_running() do
-    BusyLightsFw.LightKeeper.connected()
+    BusyLightsUi.LightKeeper.connected()
   end
 
   defp start_libcluster(true) do

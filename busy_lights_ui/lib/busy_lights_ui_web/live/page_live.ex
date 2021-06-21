@@ -60,4 +60,8 @@ defmodule BusyLightsUiWeb.PageLive do
   def handle_info({:lights, :blank}, socket) do
     {:noreply, assign(socket, lights: :blank)}
   end
+
+  def handle_info(_ignore, socket) do
+    {:noreply, socket}
+  end
 end
