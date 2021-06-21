@@ -26,8 +26,9 @@ defmodule BusyLightsFw.Application do
   end
 
   def children(_target) do
+    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
     [
-      {Phoenix.PubSub, name: :hub},
+      {Phoenix.PubSub, name: hub},
       Blinkt,
       Buttons,
       BusyLightsFw.Clustering,

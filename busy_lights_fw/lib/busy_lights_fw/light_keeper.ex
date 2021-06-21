@@ -11,7 +11,8 @@ defmodule BusyLightsFw.LightKeeper do
   end
 
   def init(_) do
-    Phoenix.PubSub.subscribe(:hub, "lights_update")
+    hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
+    Phoenix.PubSub.subscribe(hub, "lights_update")
     state = %{lights: :blank, state_request_id: 0}
     {:ok, state}
   end
@@ -36,7 +37,7 @@ defmodule BusyLightsFw.LightKeeper do
     Logger.info("Request state from other node(s). Attempt: #{inspect(attempt)}")
     case length(Node.list()) > 0 do
       true ->
-        hub = :hub # TODO: Get from config
+        hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
         Phoenix.PubSub.broadcast(hub, "lights_update", {:lights_status_request, state_request_id})
       _ ->
         Process.send_after(self(), {:request_state, attempt+1}, @delay)
@@ -54,7 +55,7 @@ defmodule BusyLightsFw.LightKeeper do
       true -> :ok # Own request
       _ ->
         Logger.info("Got status request")
-        hub = :hub # TODO: Get from config
+        hub = Application.get_env(:busy_lights_fw, :lights_pub_sub_hub)
         Phoenix.PubSub.broadcast(hub, "lights_update", {:lights_status_response, lights, correlation_id})
     end
     {:noreply, state}

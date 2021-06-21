@@ -8,3 +8,5 @@ mix phx.digest
 cd ../busy_lights_fw
 export MIX_TARGET=rpi0
 mix deps.get
+mix compile
+mix firmware

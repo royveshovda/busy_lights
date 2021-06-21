@@ -61,3 +61,5 @@ config :logger, level: :info
 #     environment variable SECRET_KEY_BASE is missing.
 #     You can generate one by calling: mix phx.gen.secret
 #     """
+
+config :busy_lights_ui, lights_pub_sub_hub: :hub
