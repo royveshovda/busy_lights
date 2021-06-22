@@ -101,26 +101,35 @@ defmodule BusyLightsUi.LightKeeper do
 
   def handle_info({:lights, :red}, %{lights_module: lights_module} = state) do
     Logger.info("Got Red")
+    publish_ui_lights_update(:red)
     set_lights(:red, lights_module)
     {:noreply, %{state | lights: :red}}
   end
 
   def handle_info({:lights, :yellow}, %{lights_module: lights_module} = state) do
     Logger.info("Got Yellow")
+    publish_ui_lights_update(:yellow)
     set_lights(:yellow, lights_module)
     {:noreply, %{state | lights: :yellow}}
   end
 
   def handle_info({:lights, :green}, %{lights_module: lights_module} = state) do
     Logger.info("Got Green")
+    publish_ui_lights_update(:green)
     set_lights(:green, lights_module)
     {:noreply, %{state | lights: :green}}
   end
 
   def handle_info({:lights, :blank}, %{lights_module: lights_module} = state) do
     Logger.info("Got Blank")
+    publish_ui_lights_update(:blank)
     set_lights(:blank, lights_module)
     {:noreply, %{state | lights: :blank}}
+  end
+
+  defp publish_ui_lights_update(color) do
+    # Only broadcast on local node
+    Phoenix.PubSub.local_broadcast(BusyLightsUi.PubSub, "ui_updates", {:lights, color})
   end
 
   defp set_lights(:red, lights_module), do: lights_module.red()

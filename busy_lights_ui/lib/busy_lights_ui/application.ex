@@ -15,7 +15,8 @@ defmodule BusyLightsUi.Application do
       BusyLightsUiWeb.Endpoint,
       # Start a worker by calling: BusyLightsUi.Worker.start_link(arg)
       # {BusyLightsUi.Worker, arg}
-      BusyLightsUi.LightKeeper
+      BusyLightsUi.LightKeeper,
+      BusyLightsUi.NodeWatcher
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

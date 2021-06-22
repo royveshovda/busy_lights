@@ -1,4 +1,4 @@
-<section class="phx-hero">
+<section class="phx-hero" >
   <h1>Welcome to Busy Lights</h1>
   <p>Peace-of-mind from internal distractions</p>
 
@@ -6,5 +6,17 @@
   <button phx-click="yellow_button">Yellow</button>
   <button phx-click="green_button">Green</button>
   <button phx-click="blank_button">Blank</button>
-  <h1>Current colour: <%= @lights %></h1>
+  <h2>Current colour: <%= @lights %></h2>
+</section>
+<section>
+  <h1>Connected nodes:</h1>
+  <%= if length(@nodes) > 0 do %>
+    <%= for node <- @nodes do %>
+      <div>
+        <%= node %>
+      </div>
+    <% end %>
+  <% else %>
+    <h3>No nodes connected</h3>
+  <% end %>
 </section>

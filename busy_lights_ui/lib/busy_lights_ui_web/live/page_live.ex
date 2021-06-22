@@ -8,39 +8,42 @@ defmodule BusyLightsUiWeb.PageLive do
     lights =
       case connected?(socket) do
         true ->
-          Phoenix.PubSub.subscribe(BusyLightsUi.PubSub, "lights_update")
+          Phoenix.PubSub.subscribe(BusyLightsUi.PubSub, "ui_updates")
           BusyLightsUi.LightKeeper.get_light
         _ -> :blank # default value
       end
 
+    nodes = []
+
     socket =
       socket
       |> assign(lights: lights)
+      |> assign(nodes: nodes)
     {:ok, socket}
   end
 
   @impl true
   def handle_event("red_button", _value, socket) do
     Logger.debug("Button pressed: RED")
-    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :red})
+    BusyLightsUi.LightKeeper.publish_red()
     {:noreply, socket}
   end
 
   def handle_event("yellow_button", _value, socket) do
     Logger.debug("Button pressed: YELLOW")
-    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :yellow})
+    BusyLightsUi.LightKeeper.publish_yellow()
     {:noreply, socket}
   end
 
   def handle_event("green_button", _value, socket) do
     Logger.debug("Button pressed: GREEN")
-    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :green})
+    BusyLightsUi.LightKeeper.publish_green()
     {:noreply, socket}
   end
 
   def handle_event("blank_button", _value, socket) do
     Logger.debug("Button pressed: BLANK")
-    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, :blank})
+    BusyLightsUi.LightKeeper.publish_blank()
     {:noreply, socket}
   end
 
@@ -59,6 +62,11 @@ defmodule BusyLightsUiWeb.PageLive do
 
   def handle_info({:lights, :blank}, socket) do
     {:noreply, assign(socket, lights: :blank)}
+  end
+
+  def handle_info({:nodes, nodes, _change}, socket) do
+    nodes = Enum.sort(nodes)
+    {:noreply, assign(socket, nodes: nodes)}
   end
 
   def handle_info(_ignore, socket) do

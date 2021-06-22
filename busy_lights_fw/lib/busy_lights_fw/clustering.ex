@@ -10,17 +10,11 @@ defmodule BusyLightsFw.Clustering do
     state = %{running: false}
     Logger.info("Clustering server started")
     VintageNet.subscribe(["interface", "wlan0", "addresses"])
-
-    # TODO: Check if has IP already set
-    # Start Cluster.SuperVisor if so
-
     {:ok, state}
   end
 
   def handle_info({VintageNet, ["interface", "wlan0", "addresses"], _old_value, new_value, _metadata}, %{running: running} = state) do
-    #Logger.debug("New WLAN0 UPDATE: old_value: #{inspect(old_value)}, new_value: #{inspect(new_value)}")
     Logger.debug("New WLAN0 IP UPDATE: #{inspect(new_value)}")
-
     ip_v4_addresses = Enum.filter(new_value, fn x -> x.family == :inet end)
 
     state =
