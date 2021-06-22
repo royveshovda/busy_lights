@@ -19,3 +19,8 @@ To start your Nerves app:
     export NERVES_NETWORK_PSK=your_wifi_password
     mix firmware
     mix firmware.burn
+
+
+# To update
+    mix firmware.gen.script
+    ./upload.sh <IP>
