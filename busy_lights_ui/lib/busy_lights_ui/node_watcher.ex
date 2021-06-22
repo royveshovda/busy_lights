@@ -8,8 +8,8 @@ defmodule BusyLightsUi.NodeWatcher do
 
   def init(_) do
     :net_kernel.monitor_nodes(:true,[])
-    nodes = Node.list()
-    state = %{nodes: nodes}
+    state = %{}
+    Process.send_after(self(), :full_node_list, 60000)
     {:ok, state}
   end
 
@@ -24,6 +24,13 @@ defmodule BusyLightsUi.NodeWatcher do
     Logger.info("Node DOWN: #{node_name}")
     nodes = Node.list()
     Phoenix.PubSub.local_broadcast(BusyLightsUi.PubSub, "ui_updates", {:nodes, nodes, :down})
+    {:noreply, state}
+  end
+
+  def handle_info(:full_node_list, state) do
+    Logger.debug("Full node list")
+    nodes = Node.list()
+    Phoenix.PubSub.local_broadcast(BusyLightsUi.PubSub, "ui_updates", {:nodes, nodes, :full})
     {:noreply, state}
   end
 end
