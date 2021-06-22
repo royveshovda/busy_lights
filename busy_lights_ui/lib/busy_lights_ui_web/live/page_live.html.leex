@@ -1,12 +1,11 @@
-<section class="phx-hero" >
-  <h1>Welcome to Busy Lights</h1>
-  <p>Peace-of-mind from internal distractions</p>
+<section class="phx-hero" style="background-color:<%= @color %>;">
+  <h1>Peace-of-mind from internal distractions</h1>
 
   <button phx-click="red_button">Red</button>
   <button phx-click="yellow_button">Yellow</button>
   <button phx-click="green_button">Green</button>
   <button phx-click="blank_button">Blank</button>
-  <h2>Current colour: <%= @lights %></h2>
+  <h2>Status: <%= @status %></h2>
 </section>
 <section>
   <h1>Connected nodes:</h1>

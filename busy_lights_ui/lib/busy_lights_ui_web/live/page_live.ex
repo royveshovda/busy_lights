@@ -14,11 +14,15 @@ defmodule BusyLightsUiWeb.PageLive do
       end
 
     nodes = []
+    bg_color = ""
+    status = "Not working"
 
     socket =
       socket
       |> assign(lights: lights)
       |> assign(nodes: nodes)
+      |> assign(color: bg_color)
+      |> assign(status: status)
     {:ok, socket}
   end
 
@@ -48,20 +52,13 @@ defmodule BusyLightsUiWeb.PageLive do
   end
 
   @impl true
-  def handle_info({:lights, :red}, socket) do
-    {:noreply, assign(socket, lights: :red)}
-  end
-
-  def handle_info({:lights, :yellow}, socket) do
-    {:noreply, assign(socket, lights: :yellow)}
-  end
-
-  def handle_info({:lights, :green}, socket) do
-    {:noreply, assign(socket, lights: :green)}
-  end
-
-  def handle_info({:lights, :blank}, socket) do
-    {:noreply, assign(socket, lights: :blank)}
+  def handle_info({:lights, color}, socket) do
+    socket =
+      socket
+      |> assign(lights: color)
+      |> assign(color: get_bg_from_color(color))
+      |> assign(status: get_status_from_color(color))
+    {:noreply, socket}
   end
 
   def handle_info({:nodes, nodes, _change}, socket) do
@@ -72,4 +69,15 @@ defmodule BusyLightsUiWeb.PageLive do
   def handle_info(_ignore, socket) do
     {:noreply, socket}
   end
+
+  defp get_status_from_color(:red), do: "Meeting"
+  defp get_status_from_color(:yellow), do: "Busy"
+  defp get_status_from_color(:green), do: "Free"
+  defp get_status_from_color(:blank), do: "Not working"
+
+  defp get_bg_from_color(:red), do: "red"
+  defp get_bg_from_color(:yellow), do: "yellow"
+  defp get_bg_from_color(:green), do: "green"
+  defp get_bg_from_color(:blank), do: ""
+
 end
