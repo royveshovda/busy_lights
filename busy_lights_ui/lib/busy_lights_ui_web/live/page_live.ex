@@ -13,14 +13,16 @@ defmodule BusyLightsUiWeb.PageLive do
         _ -> :blank # default value
       end
 
-    nodes = []
-    bg_color = ""
-    status = "Not working"
+    {nodes, self} = BusyLightsUi.NodeWatcher.get_nodes()
+
+    bg_color = get_bg_from_color(lights)
+    status = get_status_from_color(lights)
 
     socket =
       socket
       |> assign(lights: lights)
       |> assign(nodes: nodes)
+      |> assign(self: self)
       |> assign(color: bg_color)
       |> assign(status: status)
     {:ok, socket}
@@ -61,9 +63,9 @@ defmodule BusyLightsUiWeb.PageLive do
     {:noreply, socket}
   end
 
-  def handle_info({:nodes, nodes, _change}, socket) do
-    nodes = Enum.sort(nodes)
-    {:noreply, assign(socket, nodes: nodes)}
+  def handle_info({:nodes, {nodes, self}, _change}, socket) do
+
+    {:noreply, assign(socket, nodes: nodes, self: self)}
   end
 
   def handle_info(_ignore, socket) do

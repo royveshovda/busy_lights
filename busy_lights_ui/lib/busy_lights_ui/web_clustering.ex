@@ -5,8 +5,8 @@ defmodule BusyLightsUi.WebClustering do
   def prepare_node() do
     start_epmd()
     {:ok, addrs} = :inet.getifaddrs()
-    wlan_id = 'wlp0s20f3'
-    [{wlan_id, details}] = addrs |> Enum.filter(fn {nic, _details} -> nic == wlan_id end)
+    wlan_ids = ['wlp0s20f3', 'enp72s0']
+    [{_wlan_id, details}] = addrs |> Enum.filter(fn {nic, _details} -> nic in wlan_ids end)
     [_,{:addr, ip},_,_,_,_,_] = details
     host = Tuple.to_list(ip) |> Enum.join(".")
     node_name = "nerves@" <> host |> String.to_atom

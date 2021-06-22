@@ -12,7 +12,9 @@
   <%= if length(@nodes) > 0 do %>
     <%= for node <- @nodes do %>
       <div>
+        <%= if node == @self do %><b><% end %>
         <%= node %>
+        <%= if node == @self do %></b><% end %>
       </div>
     <% end %>
   <% else %>
