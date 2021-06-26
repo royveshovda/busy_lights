@@ -75,7 +75,7 @@ defmodule BusyLightsUiWeb.PageLive do
   defp get_status_from_color(:red), do: "Meeting"
   defp get_status_from_color(:yellow), do: "Busy"
   defp get_status_from_color(:green), do: "Free"
-  defp get_status_from_color(:blank), do: "Not working"
+  defp get_status_from_color(:blank), do: "Nothing"
 
   defp get_bg_from_color(:red), do: "red"
   defp get_bg_from_color(:yellow), do: "yellow"
