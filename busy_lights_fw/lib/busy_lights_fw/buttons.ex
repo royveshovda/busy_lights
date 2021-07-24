@@ -3,10 +3,10 @@ defmodule Buttons do
 
   require Logger
 
-  @red 26
-  @yellow 19
+  @red 5
+  @yellow 6
   @green 13
-  @black 6
+  @black 19
 
   def start_link(_opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
