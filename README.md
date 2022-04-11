@@ -15,7 +15,7 @@ To start your Nerves app:
     export NERVES_NETWORK_SSID=your_wifi_name
     export NERVES_NETWORK_PSK=your_wifi_password
     mix firmware
-    mix firmware.burn
+    mix burn
 
 
 # To update

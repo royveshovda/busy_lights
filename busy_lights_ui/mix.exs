@@ -44,7 +44,8 @@ defmodule BusyLightsUi.MixProject do
       {:gettext, "~> 0.19.1"},
       {:jason, "~> 1.3"},
       {:plug_cowboy, "~> 2.5.2"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev}
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:mime, "~> 2.0"}
     ]
   end
 

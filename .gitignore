@@ -1,0 +1,6 @@
+busy_lights_ui/priv/static/favicon-*.ico
+busy_lights_ui/priv/static/robots-*.txt*
+busy_lights_ui/priv/static/robots.txt.gz
+busy_lights_ui/priv/static/images/phoenix-*.png
+busy_lights_ui/priv/static/js
+busy_lights_ui/priv/static/css
