@@ -128,16 +128,13 @@ defmodule Blinkt do
 
   defp _write_bit(bit, dat_pin, clk_pin) do
     GPIO.write(dat_pin, bit)
-    :timer.sleep(@sleeptime)
     _pulse_gpio_pin(clk_pin)
-    :timer.sleep(@sleeptime)
   end
 
   defp _pulse_gpio_pin(p) do
     GPIO.write(p, 1)
     :timer.sleep(@sleeptime)
     GPIO.write(p, 0)
-    :timer.sleep(@sleeptime)
     :ok
   end
 end
