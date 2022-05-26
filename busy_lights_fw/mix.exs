@@ -47,23 +47,23 @@ defmodule BusyLightsFw.MixProject do
       {:toolshed, "~> 0.2"},
       {:phoenix_pubsub, "~> 2.1"},
       {:libcluster, "~> 3.3.1"},
-      #{:libcluster, github: "bitwalker/libcluster"},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.10", targets: @all_targets},
       {:nerves_pack, "~> 0.7", targets: @all_targets},
-      {:vintage_net_wizard, "~> 0.4.7", targets: @all_targets},
+      {:vintage_net_wizard, "~> 0.4.9", targets: @all_targets},
       {:circuits_gpio, "~> 1.0.0", targets: @all_targets},
+      #{:blinkt, "~> 0.1.0", github: "ashhhleyyy/blinkt-ex"},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.18.4", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.18.4", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.18.4", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.18.4", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.18.4", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.18.4", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.13.4", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.18.4", runtime: false, targets: :x86_64},
+      {:nerves_system_rpi, "~> 1.19.0", runtime: false, targets: :rpi},
+      {:nerves_system_rpi0, "~> 1.19.0", runtime: false, targets: :rpi0},
+      {:nerves_system_rpi2, "~> 1.19.0", runtime: false, targets: :rpi2},
+      {:nerves_system_rpi3, "~> 1.19.0", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3a, "~> 1.19.0", runtime: false, targets: :rpi3a},
+      {:nerves_system_rpi4, "~> 1.19.0", runtime: false, targets: :rpi4},
+      {:nerves_system_bbb, "~> 2.14.0", runtime: false, targets: :bbb},
+      {:nerves_system_x86_64, "~> 1.19.0", runtime: false, targets: :x86_64},
     ]
   end
 

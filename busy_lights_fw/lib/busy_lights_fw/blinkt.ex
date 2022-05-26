@@ -1,4 +1,4 @@
-defmodule Blinkt do
+defmodule BusyLightsFw.Blinkt do
   #use Agent
   use GenServer
   use Bitwise

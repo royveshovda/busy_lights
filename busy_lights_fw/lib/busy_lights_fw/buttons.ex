@@ -1,4 +1,4 @@
-defmodule Buttons do
+defmodule BusyLightsFw.Buttons do
   use GenServer
 
   require Logger

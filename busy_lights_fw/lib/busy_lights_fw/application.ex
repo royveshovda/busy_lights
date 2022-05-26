@@ -27,8 +27,8 @@ defmodule BusyLightsFw.Application do
 
   def children(_target) do
     [
-      Blinkt,
-      Buttons,
+      BusyLightsFw.Blinkt,
+      BusyLightsFw.Buttons,
       BusyLightsFw.Clustering,
     ]
   end
