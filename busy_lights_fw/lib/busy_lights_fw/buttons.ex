@@ -35,25 +35,25 @@ defmodule BusyLightsFw.Buttons do
 
   def handle_info({:circuits_gpio, @red, _stamp, 0}, state) do
     Logger.info("Red pin falling")
-    BusyLightsUi.LightKeeper.publish_red()
+    BusyLightsUi.LightKeeper.publish(:red)
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @yellow, _stamp, 0}, state) do
     Logger.info("Yellow pin falling")
-    BusyLightsUi.LightKeeper.publish_yellow()
+    BusyLightsUi.LightKeeper.publish(:yellow)
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @green, _stamp, 0}, state) do
     Logger.info("Green pin falling")
-    BusyLightsUi.LightKeeper.publish_green()
+    BusyLightsUi.LightKeeper.publish(:green)
     {:noreply, state}
   end
 
   def handle_info({:circuits_gpio, @black, _stamp, 0}, state) do
     Logger.info("Black pin falling")
-    BusyLightsUi.LightKeeper.publish_blank()
+    BusyLightsUi.LightKeeper.publish(:blank)
     {:noreply, state}
   end
 

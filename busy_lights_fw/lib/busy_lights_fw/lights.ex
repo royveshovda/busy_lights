@@ -12,34 +12,9 @@ defmodule BusyLightsFw.Lights do
     {:ok, state}
   end
 
-  def blue() do
-    Logger.debug("Request BLUE")
-    GenServer.cast(__MODULE__, {:request_light, :blue})
-  end
-
-  def white() do
-    Logger.debug("Request WHITE")
-    GenServer.cast(__MODULE__, {:request_light, :white})
-  end
-
-  def red() do
-    Logger.debug("Request RED")
-    GenServer.cast(__MODULE__, {:request_light, :red})
-  end
-
-  def yellow() do
-    Logger.debug("Request YELLOW")
-    GenServer.cast(__MODULE__, {:request_light, :yellow})
-  end
-
-  def green() do
-    Logger.debug("Request GREEN")
-    GenServer.cast(__MODULE__, {:request_light, :green})
-  end
-
-  def blank() do
-    Logger.debug("Request <BLANK>")
-    GenServer.cast(__MODULE__, {:request_light, :blank})
+  def set_color(color) do
+    Logger.debug("Request (#{color})")
+    GenServer.cast(__MODULE__, {:request_light, color})
   end
 
   def handle_cast({:request_light, color}, state) do

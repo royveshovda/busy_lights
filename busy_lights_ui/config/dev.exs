@@ -62,3 +62,5 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :busy_lights_ui, lights_pub_sub_hub: BusyLightsUi.PubSub
+
+config :busy_lights_ui, :extra_apps_to_start, [BusyLightsUi.FakeLights]

@@ -24,24 +24,9 @@ defmodule BusyLightsUi.LightKeeper do
     GenServer.cast(__MODULE__, :connected)
   end
 
-  def publish_red() do
-    Logger.debug("1 (RED)")
-    GenServer.cast(__MODULE__, {:publish_lights, :red})
-  end
-
-  def publish_yellow() do
-    Logger.debug("1 (YELLOW)")
-    GenServer.cast(__MODULE__, {:publish_lights, :yellow})
-  end
-
-  def publish_green() do
-    Logger.debug("1 (GREEN)")
-    GenServer.cast(__MODULE__, {:publish_lights, :green})
-  end
-
-  def publish_blank() do
-    Logger.debug("1 (<BLANK>)")
-    GenServer.cast(__MODULE__, {:publish_lights, :blank})
+  def publish(color) do
+    Logger.debug("1 (#{color})")
+    GenServer.cast(__MODULE__, {:publish_lights, color})
   end
 
   def handle_call(:get_light, _from, %{lights: lights} = state) do
@@ -104,76 +89,30 @@ defmodule BusyLightsUi.LightKeeper do
       case correlation_id == state_request_id do
         true ->
           Logger.info("Got status response: #{inspect(lights)}")
-          set_lights(lights, lights_module)
+          lights_module.set_color(lights)
           %{state | lights: lights, state_request_id: nil}
         _ -> state # not my request
       end
     {:noreply, state}
   end
 
-  def handle_info({:lights, :red, from, sent_at}, %{lights_module: lights_module} = state) do
-    Logger.info("2 Got Red")
+  def handle_info({:lights, color, from, sent_at}, %{lights_module: lights_module} = state) do
+    Logger.info("2 Got #{color}")
 
     received_at = :os.system_time(:millisecond)
     diff = received_at - sent_at
     Logger.debug("From: #{ from }")
     Logger.debug("PubSub time: #{diff}")
-    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :red})
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: color})
 
-    publish_ui_lights_update(:red)
-    set_lights(:red, lights_module)
-    {:noreply, %{state | lights: :red}}
-  end
+    publish_ui_lights_update(color)
 
-  def handle_info({:lights, :yellow, from, sent_at}, %{lights_module: lights_module} = state) do
-    Logger.debug("2 Got Yellow")
-
-    received_at = :os.system_time(:millisecond)
-    diff = received_at - sent_at
-    Logger.debug("From: #{ from }")
-    Logger.debug("PubSub time: #{diff}")
-    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :yellow})
-
-    publish_ui_lights_update(:yellow)
-    set_lights(:yellow, lights_module)
-    {:noreply, %{state | lights: :yellow}}
-  end
-
-  def handle_info({:lights, :green, from, sent_at}, %{lights_module: lights_module} = state) do
-    Logger.info("2 Got Green")
-
-    received_at = :os.system_time(:millisecond)
-    diff = received_at - sent_at
-    Logger.debug("From: #{ from }")
-    Logger.debug("PubSub time: #{diff}")
-    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :green})
-
-    publish_ui_lights_update(:green)
-    set_lights(:green, lights_module)
-    {:noreply, %{state | lights: :green}}
-  end
-
-  def handle_info({:lights, :blank, from, sent_at}, %{lights_module: lights_module} = state) do
-    Logger.info("2 Got Blank")
-
-    received_at = :os.system_time(:millisecond)
-    diff = received_at - sent_at
-    Logger.debug("From: #{ from }")
-    Logger.debug("PubSub time: #{diff}")
-    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :blank})
-
-    publish_ui_lights_update(:blank)
-    set_lights(:blank, lights_module)
-    {:noreply, %{state | lights: :blank}}
+    lights_module.set_color(color)
+    {:noreply, %{state | lights: color}}
   end
 
   defp publish_ui_lights_update(color) do
     # Only broadcast on local node
     Phoenix.PubSub.local_broadcast(BusyLightsUi.PubSub, "ui_updates", {:lights, color})
   end
-
-  defp set_lights(:red, lights_module), do: lights_module.red()
-  defp set_lights(:yellow, lights_module), do: lights_module.yellow()
-  defp set_lights(:green, lights_module), do: lights_module.green()
-  defp set_lights(:blank, lights_module), do: lights_module.blank()
 end

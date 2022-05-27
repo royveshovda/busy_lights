@@ -17,12 +17,16 @@ defmodule BusyLightsUi.Application do
       # {BusyLightsUi.Worker, arg}
       BusyLightsUi.LightKeeper,
       BusyLightsUi.NodeWatcher
-    ]
+    ] ++ get_extra_apps()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: BusyLightsUi.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp get_extra_apps() do
+    Application.get_env(:busy_lights_ui,:extra_apps_to_start, [])
   end
 
   # Tell Phoenix to update the endpoint configuration

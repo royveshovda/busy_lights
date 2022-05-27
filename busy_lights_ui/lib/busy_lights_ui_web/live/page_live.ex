@@ -31,25 +31,37 @@ defmodule BusyLightsUiWeb.PageLive do
   @impl true
   def handle_event("red_button", _value, socket) do
     Logger.debug("Button pressed: RED")
-    BusyLightsUi.LightKeeper.publish_red()
+    BusyLightsUi.LightKeeper.publish(:red)
     {:noreply, socket}
   end
 
   def handle_event("yellow_button", _value, socket) do
     Logger.debug("Button pressed: YELLOW")
-    BusyLightsUi.LightKeeper.publish_yellow()
+    BusyLightsUi.LightKeeper.publish(:yellow)
     {:noreply, socket}
   end
 
   def handle_event("green_button", _value, socket) do
     Logger.debug("Button pressed: GREEN")
-    BusyLightsUi.LightKeeper.publish_green()
+    BusyLightsUi.LightKeeper.publish(:green)
+    {:noreply, socket}
+  end
+
+  def handle_event("blue_button", _value, socket) do
+    Logger.debug("Button pressed: BLUE")
+    BusyLightsUi.LightKeeper.publish(:blue)
+    {:noreply, socket}
+  end
+
+  def handle_event("white_button", _value, socket) do
+    Logger.debug("Button pressed: WHITE")
+    BusyLightsUi.LightKeeper.publish(:white)
     {:noreply, socket}
   end
 
   def handle_event("blank_button", _value, socket) do
     Logger.debug("Button pressed: BLANK")
-    BusyLightsUi.LightKeeper.publish_blank()
+    BusyLightsUi.LightKeeper.publish(:blank)
     {:noreply, socket}
   end
 
@@ -75,11 +87,15 @@ defmodule BusyLightsUiWeb.PageLive do
   defp get_status_from_color(:red), do: "Meeting"
   defp get_status_from_color(:yellow), do: "Busy"
   defp get_status_from_color(:green), do: "Free"
+  defp get_status_from_color(:blue), do: "Blue"
+  defp get_status_from_color(:white), do: "White"
   defp get_status_from_color(:blank), do: "Nothing"
 
   defp get_bg_from_color(:red), do: "red"
   defp get_bg_from_color(:yellow), do: "yellow"
   defp get_bg_from_color(:green), do: "green"
-  defp get_bg_from_color(:blank), do: ""
+  defp get_bg_from_color(:white), do: "snow"
+  defp get_bg_from_color(:blue), do: "deepskyblue"
+  defp get_bg_from_color(:blank), do: "lightslategray"
 
 end
