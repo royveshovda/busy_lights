@@ -2,14 +2,14 @@ defmodule BusyLightsFw.MixProject do
   use Mix.Project
 
   @app :busy_lights_fw
-  @version "0.1.0"
+  @version "0.2.0"
   @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :rpi4, :bbb, :x86_64]
 
   def project do
     [
       app: @app,
       version: @version,
-      elixir: "~> 1.1",
+      elixir: "~> 1.13",
       archives: [nerves_bootstrap: "~> 1.10"],
       start_permanent: Mix.env() == :prod,
       build_embedded: true,
@@ -31,7 +31,7 @@ defmodule BusyLightsFw.MixProject do
   def application do
     [
       mod: {BusyLightsFw.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -74,7 +74,6 @@ defmodule BusyLightsFw.MixProject do
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble],
       strip_beams: Mix.env() == :prod#,
-      #applications: [busy_lights_ui: :load]
     ]
   end
 end
