@@ -21,3 +21,7 @@ To start your Nerves app:
 # To update
     mix firmware.gen.script
     ./upload.sh <IP>
+
+
+# Investigate
+https://thebroken.link/elixir-pubsub-in-less-than-50-lines/
