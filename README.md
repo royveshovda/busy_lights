@@ -6,10 +6,10 @@ Purpose: Show a synchronized light on web, and all attached RPi Zeroes. Usa case
 To start your Nerves app:
 
     export MIX_ENV=prod
-    cd busy_lights_ui
+    cd ui
     mix deps.get
     mix assets.deploy
-    cd ../busy_lights_fw
+    cd ../fw
     export MIX_TARGET=rpi0
     mix deps.get
     export NERVES_NETWORK_SSID=your_wifi_name

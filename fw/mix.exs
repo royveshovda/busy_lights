@@ -40,8 +40,7 @@ defmodule BusyLightsFw.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      #{:busy_lights_ui, path: "../busy_lights_ui", runtime: false},
-      {:busy_lights_ui, path: "../busy_lights_ui", targets: @all_targets, env: Mix.env()},
+      {:busy_lights_ui, path: "../ui", targets: @all_targets, env: Mix.env()},
       {:nerves, "~> 1.7", runtime: false},
       {:shoehorn, "~> 0.9"},
       {:ring_logger, "~> 0.8"},
@@ -54,7 +53,6 @@ defmodule BusyLightsFw.MixProject do
       {:nerves_pack, "~> 0.7", targets: @all_targets},
       {:vintage_net_wizard, "~> 0.4.9", targets: @all_targets},
       {:circuits_gpio, "~> 1.0.0", targets: @all_targets},
-      #{:blinkt, "~> 0.1.0", github: "ashhhleyyy/blinkt-ex"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.19.0", runtime: false, targets: :rpi},
