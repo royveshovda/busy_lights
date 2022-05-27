@@ -30,6 +30,7 @@ defmodule BusyLightsFw.Application do
       BusyLightsFw.Blinkt,
       BusyLightsFw.Buttons,
       BusyLightsFw.Clustering,
+      Application.get_env(:busy_lights_ui, :lights_module)
     ]
   end
 
