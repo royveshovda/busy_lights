@@ -62,7 +62,13 @@ defmodule BusyLightsUi.LightKeeper do
 
   def handle_cast({:publish_lights, lights}, state) do
     Logger.debug("Broadcast starting...")
-    Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, lights})
+
+    from = Node.self()
+    sent_at = :os.system_time(:millisecond)
+    {time, :ok} = :timer.tc(&Phoenix.PubSub.broadcast/3, [BusyLightsUi.PubSub, "lights_update", {:lights, lights, from, sent_at}])
+    Logger.debug(time)
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{broadcast: time},%{lights: lights})
+    #Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, lights})
     Logger.debug("Broadcast done")
     {:noreply, state}
   end
@@ -105,29 +111,57 @@ defmodule BusyLightsUi.LightKeeper do
     {:noreply, state}
   end
 
-  def handle_info({:lights, :red}, %{lights_module: lights_module} = state) do
+  def handle_info({:lights, :red, from, sent_at}, %{lights_module: lights_module} = state) do
     Logger.info("2 Got Red")
+
+    received_at = :os.system_time(:millisecond)
+    diff = received_at - sent_at
+    Logger.debug("From: #{ from }")
+    Logger.debug("PubSub time: #{diff}")
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :red})
+
     publish_ui_lights_update(:red)
     set_lights(:red, lights_module)
     {:noreply, %{state | lights: :red}}
   end
 
-  def handle_info({:lights, :yellow}, %{lights_module: lights_module} = state) do
-    Logger.info("2 Got Yellow")
+  def handle_info({:lights, :yellow, from, sent_at}, %{lights_module: lights_module} = state) do
+    Logger.debug("2 Got Yellow")
+
+    received_at = :os.system_time(:millisecond)
+    diff = received_at - sent_at
+    Logger.debug("From: #{ from }")
+    Logger.debug("PubSub time: #{diff}")
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :yellow})
+
     publish_ui_lights_update(:yellow)
     set_lights(:yellow, lights_module)
     {:noreply, %{state | lights: :yellow}}
   end
 
-  def handle_info({:lights, :green}, %{lights_module: lights_module} = state) do
+  def handle_info({:lights, :green, from, sent_at}, %{lights_module: lights_module} = state) do
     Logger.info("2 Got Green")
+
+    received_at = :os.system_time(:millisecond)
+    diff = received_at - sent_at
+    Logger.debug("From: #{ from }")
+    Logger.debug("PubSub time: #{diff}")
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :green})
+
     publish_ui_lights_update(:green)
     set_lights(:green, lights_module)
     {:noreply, %{state | lights: :green}}
   end
 
-  def handle_info({:lights, :blank}, %{lights_module: lights_module} = state) do
+  def handle_info({:lights, :blank, from, sent_at}, %{lights_module: lights_module} = state) do
     Logger.info("2 Got Blank")
+
+    received_at = :os.system_time(:millisecond)
+    diff = received_at - sent_at
+    Logger.debug("From: #{ from }")
+    Logger.debug("PubSub time: #{diff}")
+    :telemetry.execute([:busy_lights_ui, :pubsub, :runtime],%{pubsub: diff},%{lights: :blank})
+
     publish_ui_lights_update(:blank)
     set_lights(:blank, lights_module)
     {:noreply, %{state | lights: :blank}}

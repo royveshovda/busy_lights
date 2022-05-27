@@ -14,40 +14,41 @@ defmodule BusyLightsFw.Lights do
 
   def blue() do
     Logger.debug("Request BLUE")
-    GenServer.call(__MODULE__, {:request_light, :blue})
+    GenServer.cast(__MODULE__, {:request_light, :blue})
   end
 
   def white() do
     Logger.debug("Request WHITE")
-    GenServer.call(__MODULE__, {:request_light, :white})
+    GenServer.cast(__MODULE__, {:request_light, :white})
   end
 
   def red() do
     Logger.debug("Request RED")
-    GenServer.call(__MODULE__, {:request_light, :red})
+    GenServer.cast(__MODULE__, {:request_light, :red})
   end
 
   def yellow() do
     Logger.debug("Request YELLOW")
-    GenServer.call(__MODULE__, {:request_light, :yellow})
+    GenServer.cast(__MODULE__, {:request_light, :yellow})
   end
 
   def green() do
     Logger.debug("Request GREEN")
-    GenServer.call(__MODULE__, {:request_light, :green})
+    GenServer.cast(__MODULE__, {:request_light, :green})
   end
 
   def blank() do
     Logger.debug("Request <BLANK>")
-    GenServer.call(__MODULE__, {:request_light, :blank})
+    GenServer.cast(__MODULE__, {:request_light, :blank})
   end
 
-  def handle_call({:request_light, color}, _from, state) do
-    Process.send_after(self(), :process_light, 50)
-    {:reply, :ok, %{state | next: color}}
+  def handle_cast({:request_light, color}, state) do
+    Process.send_after(self(), :process_light, 5)
+    {:noreply, %{state | next: color}}
   end
 
   def handle_info(:process_light, %{next: color} = state) do
+    Logger.debug("Set light #{color}")
     do_set_light(color)
     {:noreply, %{state | next: nil}}
   end

@@ -32,7 +32,12 @@ defmodule BusyLightsUiWeb.Telemetry do
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),
       summary("vm.total_run_queue_lengths.cpu"),
-      summary("vm.total_run_queue_lengths.io")
+      summary("vm.total_run_queue_lengths.io"),
+
+      # PubSub
+      #summary("busy_lights_ui.pubsub.queue.length"),
+      summary("busy_lights_ui.pubsub.runtime.broadcast", unit: {:native, :millisecond}),
+      summary("busy_lights_ui.pubsub.runtime.pubsub", unit: {:native, :millisecond})
     ]
   end
 
