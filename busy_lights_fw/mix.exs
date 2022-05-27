@@ -16,7 +16,8 @@ defmodule BusyLightsFw.MixProject do
       aliases: [loadconfig: [&bootstrap/1]],
       deps: deps(),
       releases: [{@app, release()}],
-      preferred_cli_target: [run: :host, test: :host]
+      preferred_cli_target: [run: :host, test: :host],
+      cookie: "#{@app}_cookie"
     ]
   end
 

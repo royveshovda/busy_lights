@@ -43,74 +43,49 @@ defmodule BusyLightsFw.Lights do
   end
 
   def handle_call({:request_light, color}, _from, state) do
-    GenServer.cast(__MODULE__, :set_light)
+    Process.send_after(self(), :process_light, 50)
     {:reply, :ok, %{state | next: color}}
   end
 
-  def handle_cast(:set_light, %{next: :nil} = state) do
+  def handle_info(:process_light, %{next: color} = state) do
+    do_set_light(color)
+    {:noreply, %{state | next: nil}}
+  end
+
+  def do_set_light(:nil) do
     Logger.debug("Do nothing")
-    {:noreply, state}
   end
 
-  def handle_cast(:set_light, %{next: :blue} = state) do
-    1..8
-    |> Enum.to_list()
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0,0,255,0.1) end)
-
+  def do_set_light(:blue) do
+    1..8 |> Enum.to_list() |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0,0,255,0.1) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 
-  def handle_cast(:set_light, %{next: :white} = state) do
-    [1,3,6,8]
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255,255,255,0.1) end)
-
-    [2,4,5,7]
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
-
+  def do_set_light(:white) do
+    [1,3,6,8] |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255,255,255,0.1) end)
+    [2,4,5,7] |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 
-  def handle_cast(:set_light, %{next: :red} = state) do
-    1..8
-    |> Enum.to_list()
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255, 0, 0, 0.5) end)
-
+  def do_set_light(:red) do
+    1..8 |> Enum.to_list() |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255, 0, 0, 0.5) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 
-  def handle_cast(:set_light, %{next: :yellow} = state) do
-    [1,2,3,6,7,8]
-    #|> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255,255,0,0.5) end)
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255,164,0,0.5) end)
-
-    [4,5]
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
-
+  def do_set_light(:yellow) do
+    [1,2,3,6,7,8] |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 255,164,0,0.5) end)
+    [4,5] |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 
-  def handle_cast(:set_light, %{next: :green} = state) do
-    [1,8]
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 255, 0, 0.5) end)
-
-    2..7
-    |> Enum.to_list()
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
-
+  def do_set_light(:green) do
+    [1,8] |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 255, 0, 0.5) end)
+    2..7 |> Enum.to_list() |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 
-  def handle_cast(:set_light, %{next: :blank} = state) do
-    1..8
-    |> Enum.to_list()
-    |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
-
+  def do_set_light(:blank) do
+    1..8 |> Enum.to_list() |> Enum.map(fn led -> BusyLightsFw.Blinkt.set_led(led, 0, 0, 0, 0.0) end)
     BusyLightsFw.Blinkt.show()
-    {:noreply, %{state | next: nil}}
   end
 end

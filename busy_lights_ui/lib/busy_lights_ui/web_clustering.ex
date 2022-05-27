@@ -17,7 +17,7 @@ defmodule BusyLightsUi.WebClustering do
     end
 
     {:ok, _pid} = Node.start(node_name)
-    Node.set_cookie(:super_secret_123)
+    #Node.set_cookie(:super_secret_123)
 
     connect()
   end

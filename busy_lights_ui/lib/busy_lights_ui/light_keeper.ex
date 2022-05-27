@@ -25,18 +25,22 @@ defmodule BusyLightsUi.LightKeeper do
   end
 
   def publish_red() do
+    Logger.debug("1 (RED)")
     GenServer.cast(__MODULE__, {:publish_lights, :red})
   end
 
   def publish_yellow() do
+    Logger.debug("1 (YELLOW)")
     GenServer.cast(__MODULE__, {:publish_lights, :yellow})
   end
 
   def publish_green() do
+    Logger.debug("1 (GREEN)")
     GenServer.cast(__MODULE__, {:publish_lights, :green})
   end
 
   def publish_blank() do
+    Logger.debug("1 (<BLANK>)")
     GenServer.cast(__MODULE__, {:publish_lights, :blank})
   end
 
@@ -57,7 +61,9 @@ defmodule BusyLightsUi.LightKeeper do
   end
 
   def handle_cast({:publish_lights, lights}, state) do
+    Logger.debug("Broadcast starting...")
     Phoenix.PubSub.broadcast(BusyLightsUi.PubSub, "lights_update", {:lights, lights})
+    Logger.debug("Broadcast done")
     {:noreply, state}
   end
 
@@ -100,28 +106,28 @@ defmodule BusyLightsUi.LightKeeper do
   end
 
   def handle_info({:lights, :red}, %{lights_module: lights_module} = state) do
-    Logger.info("Got Red")
+    Logger.info("2 Got Red")
     publish_ui_lights_update(:red)
     set_lights(:red, lights_module)
     {:noreply, %{state | lights: :red}}
   end
 
   def handle_info({:lights, :yellow}, %{lights_module: lights_module} = state) do
-    Logger.info("Got Yellow")
+    Logger.info("2 Got Yellow")
     publish_ui_lights_update(:yellow)
     set_lights(:yellow, lights_module)
     {:noreply, %{state | lights: :yellow}}
   end
 
   def handle_info({:lights, :green}, %{lights_module: lights_module} = state) do
-    Logger.info("Got Green")
+    Logger.info("2 Got Green")
     publish_ui_lights_update(:green)
     set_lights(:green, lights_module)
     {:noreply, %{state | lights: :green}}
   end
 
   def handle_info({:lights, :blank}, %{lights_module: lights_module} = state) do
-    Logger.info("Got Blank")
+    Logger.info("2 Got Blank")
     publish_ui_lights_update(:blank)
     set_lights(:blank, lights_module)
     {:noreply, %{state | lights: :blank}}

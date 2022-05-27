@@ -48,13 +48,25 @@ config :nerves_ssh,
 
 config :libcluster,
   topologies: [
-    gossip_example: [
+    gossip_clustering: [
       strategy: Elixir.Cluster.Strategy.Gossip,
       config: [
         port: 45892,
         if_addr: "0.0.0.0",
         multicast_addr: "255.255.255.255",
-        broadcast_only: true]]]
+        broadcast_only: true,
+        secret: "segment1" # Can be used to segment different versions in same network
+      ]
+    ]
+    # dns_poll_clustering: [
+    #   strategy: Elixir.Cluster.Strategy.DNSPoll,
+    #   config: [
+    #     polling_interval: 5_000,
+    #     query: "busy.sb14d",
+    #     node_basename: "nerves"
+    #   ]
+    # ]
+  ]
 
 config :libcluster,
   debug: false

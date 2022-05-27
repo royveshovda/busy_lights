@@ -89,7 +89,7 @@ defmodule BusyLightsFw.Clustering do
 
     # TODO: Start Clustering
     start_libcluster(running)
-    Node.set_cookie(:super_secret_123)
+    #Node.set_cookie(:super_secret_123)
     Logger.info("Done preparing for clustering")
   end
 end
