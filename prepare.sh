@@ -1,8 +1,8 @@
 export MIX_ENV=prod
-cd busy_lights_ui
+cd ui
 mix deps.get
 mix assets.deploy
-cd ../busy_lights_fw
+cd ../fw
 export MIX_TARGET=rpi0
 mix deps.get
 #mix firmware
