@@ -21,9 +21,12 @@ defmodule BusyLightsUiWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", BusyLightsUiWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", BusyLightsUiWeb do
+    pipe_through :api
+
+    get "/lights", LightsController, :show
+    put "/lights", LightsController, :change
+  end
 
   # Enables LiveDashboard only for development
   #
@@ -43,4 +46,6 @@ defmodule BusyLightsUiWeb.Router do
     live_dashboard "/dashboard", metrics: BusyLightsUiWeb.Telemetry
   end
   #end
+
+
 end
