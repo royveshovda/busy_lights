@@ -5,9 +5,9 @@ defmodule BusyLightsUi.MixProject do
     [
       app: :busy_lights_ui,
       version: "0.2.0",
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -33,18 +33,18 @@ defmodule BusyLightsUi.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.9"},
-      {:phoenix_live_view, "~> 0.17.10"},
+      {:phoenix, "~> 1.6.12"},
+      {:phoenix_live_view, "~> 0.18"},
       {:floki, ">= 0.0.0", only: :test},
       {:phoenix_html, "~> 3.2.0"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.6.5"},
+      {:phoenix_live_dashboard, "~> 0.7"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0.0"},
-      {:gettext, "~> 0.19.1"},
-      {:jason, "~> 1.3"},
+      {:gettext, "~> 0.20"},
+      {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.5.2"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:mime, "~> 2.0"}
     ]
   end

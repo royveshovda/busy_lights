@@ -86,6 +86,8 @@ defmodule BusyLightsUiWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
+      import Phoenix.Component
+
       import BusyLightsUiWeb.ErrorHelpers
       import BusyLightsUiWeb.Gettext
       alias BusyLightsUiWeb.Router.Helpers, as: Routes

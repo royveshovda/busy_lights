@@ -1,7 +1,7 @@
 defmodule BusyLightsFw.Blinkt do
   #use Agent
   use GenServer
-  use Bitwise
+  import Bitwise
   alias Circuits.GPIO
 
   require Logger
