@@ -4,7 +4,14 @@ Purpose: Show a synchronized light on web, and all attached RPi Zeroes. Usa case
 
 ![](docs/media/demo.gif)
 
-# To get started
+This repo is not in a very public state. If you want to replicate any of this work, feel free to reach out using issues on this repo, and I can explain the missing details.
+
+
+# Hardware
+[Details can be found here](docs/hardware.md)
+
+# Developing
+## To get started
 To start your Nerves app:
 
     export MIX_ENV=prod
@@ -20,6 +27,6 @@ To start your Nerves app:
     mix burn
 
 
-# To update
+## To update
     mix firmware.gen.script
     ./upload.sh <IP>
