@@ -56,14 +56,14 @@ defmodule BusyLightsFw.MixProject do
       {:circuits_gpio, "~> 1.0.1", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.20.1", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.20.1", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.20.1", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.20.1", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.20.1", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.20.1", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.15.2", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.20.2", runtime: false, targets: :x86_64},
+      {:nerves_system_rpi, "~> 1.20.2", runtime: false, targets: :rpi},
+      {:nerves_system_rpi0, "~> 1.20.2", runtime: false, targets: :rpi0},
+      {:nerves_system_rpi2, "~> 1.20.2", runtime: false, targets: :rpi2},
+      {:nerves_system_rpi3, "~> 1.20.2", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3a, "~> 1.20.2", runtime: false, targets: :rpi3a},
+      {:nerves_system_rpi4, "~> 1.20.2", runtime: false, targets: :rpi4},
+      {:nerves_system_bbb, "~> 2.15.3", runtime: false, targets: :bbb},
+      {:nerves_system_x86_64, "~> 1.20.3", runtime: false, targets: :x86_64},
     ]
   end
 
