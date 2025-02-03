@@ -9,8 +9,8 @@ defmodule BusyLightsFw.MixProject do
     [
       app: @app,
       version: @version,
-      elixir: "~> 1.14",
-      archives: [nerves_bootstrap: "~> 1.11"],
+      elixir: "~> 1.17",
+      archives: [nerves_bootstrap: "~> 1.13"],
       start_permanent: Mix.env() == :prod,
       build_embedded: true,
       aliases: [loadconfig: [&bootstrap/1]],
@@ -41,29 +41,29 @@ defmodule BusyLightsFw.MixProject do
     [
       # Dependencies for all targets
       {:busy_lights_ui, path: "../ui", targets: @all_targets, env: Mix.env()},
-      {:nerves, "~> 1.8", runtime: false},
-      {:shoehorn, "~> 0.9"},
-      {:ring_logger, "~> 0.8"},
-      {:toolshed, "~> 0.2"},
-      {:phoenix_pubsub, "~> 2.1"},
-      {:libcluster, "~> 3.3.1"},
+      {:nerves, "~> 1.11.3", runtime: false},
+      {:shoehorn, "~> 0.9.2"},
+      {:ring_logger, "~> 0.11.3"},
+      {:toolshed, "~> 0.4.1"},
+      {:phoenix_pubsub, "~> 2.1.3"},
+      {:libcluster, "~> 3.5.0"},
 
 
       # Dependencies for all targets except :host
-      {:nerves_runtime, "~> 0.13.1", targets: @all_targets},
-      {:nerves_pack, "~> 0.7", targets: @all_targets},
-      {:vintage_net_wizard, "~> 0.4.10", targets: @all_targets},
-      {:circuits_gpio, "~> 1.0.1", targets: @all_targets},
+      {:nerves_runtime, "~> 0.13.7", targets: @all_targets},
+      {:nerves_pack, "~> 0.7.1", targets: @all_targets},
+      {:vintage_net_wizard, "~> 0.4.17", targets: @all_targets},
+      {:circuits_gpio, "~> 2.1.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.20.2", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.20.2", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.20.2", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.20.2", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.20.2", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.20.2", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.15.3", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.20.3", runtime: false, targets: :x86_64},
+      {:nerves_system_rpi, "~> 1.29.1", runtime: false, targets: :rpi},
+      {:nerves_system_rpi0, "~> 1.29.1", runtime: false, targets: :rpi0},
+      {:nerves_system_rpi2, "~> 1.29.1", runtime: false, targets: :rpi2},
+      {:nerves_system_rpi3, "~> 1.29.1", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3a, "~> 1.29.1", runtime: false, targets: :rpi3a},
+      {:nerves_system_rpi4, "~> 1.29.1", runtime: false, targets: :rpi4},
+      {:nerves_system_bbb, "~> 2.25.1", runtime: false, targets: :bbb},
+      {:nerves_system_x86_64, "~> 1.29.1", runtime: false, targets: :x86_64},
     ]
   end
 

@@ -46,8 +46,8 @@ config :nerves, source_date_epoch: "1589200147"
 
 config :nerves_ssh,
     authorized_keys: [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMx6Vq8mR7CnULr3TRINTf8usCoL4bgTYs2e0HIs2V7v", #TR
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHoZYb7DmkVxL/c5TgSpzmUZDedIJ/p366UOdiDwwVAe" #Dell
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVOpttfJ12x0hAX/jJFqWOfwJAA9c5YBWa6AnvxU+7G", #Mac Studio
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICvC/Rt+pFwCJ82qmR7Q3+RhpSYwpxVpW8FaQsLhq1+X" #Macbook air
     ]
 
 config :libcluster,
