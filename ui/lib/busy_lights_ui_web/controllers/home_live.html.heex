@@ -1,16 +1,16 @@
 <.flash_group flash={@flash} />
-<section class="phx-hero" style="background-color:{ @color };">
+<section class="w-full flex flex-col items-center justify-center p-8 border border-gray-300 rounded-md" style={"background-color: " <> @color}>
   <h1>Peace-of-mind from physical distractions</h1>
 
-  <button phx-click="red_button">Red</button>
-  <button phx-click="yellow_button">Yellow</button>
-  <button phx-click="green_button">Green</button>
-  <button phx-click="blue_button">Blue</button>
-  <button phx-click="white_button">White</button>
-  <button phx-click="blank_button">Blank</button>
+  <button phx-click="red_button" class="w-32 shadow-md bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Red</button>
+  <button phx-click="yellow_button" class="w-32 shadow-md bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Yellow</button>
+  <button phx-click="green_button" class="w-32 shadow-md bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Green</button>
+  <button phx-click="blue_button" class="w-32 shadow-md bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Blue</button>
+  <button phx-click="white_button" class="w-32 shadow-md bg-white hover:bg-gray-100 text-black font-bold py-2 px-4 rounded">White</button>
+  <button phx-click="blank_button" class="w-32 shadow-md bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Blank</button>
   <h2>Status: <%= @status %></h2>
 </section>
-<section>
+<section class="w-full p-8 border border-gray-300 rounded-md">
   <h1>Connected nodes:</h1>
   <%= if length(@nodes) > 0 do %>
     <%= for node <- @nodes do %>
