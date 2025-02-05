@@ -1,4 +1,5 @@
-<section class="phx-hero" style="background-color:<%= @color %>;">
+<.flash_group flash={@flash} />
+<section class="phx-hero" style="background-color:{ @color };">
   <h1>Peace-of-mind from physical distractions</h1>
 
   <button phx-click="red_button">Red</button>
@@ -14,9 +15,11 @@
   <%= if length(@nodes) > 0 do %>
     <%= for node <- @nodes do %>
       <div>
-        <%= if node == @self do %><b><% end %>
-        <%= node %>
-        <%= if node == @self do %></b><% end %>
+        <%= if node == @self do %>
+          <b><%= node %></b>
+        <% else %>
+          <%= node %>
+        <% end %>
       </div>
     <% end %>
   <% else %>

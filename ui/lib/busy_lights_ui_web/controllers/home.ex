@@ -1,7 +1,7 @@
-defmodule BusyLightsUiWeb.PageLive do
+defmodule BusyLightsUiWeb.HomeLive do
   use BusyLightsUiWeb, :live_view
 
-  require Logger
+  require(Logger)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -9,8 +9,11 @@ defmodule BusyLightsUiWeb.PageLive do
       case connected?(socket) do
         true ->
           Phoenix.PubSub.subscribe(BusyLightsUi.PubSub, "ui_updates")
-          BusyLightsUi.LightKeeper.get_light
-        _ -> :blank # default value
+          BusyLightsUi.LightKeeper.get_light()
+
+        # default value
+        _ ->
+          :blank
       end
 
     {nodes, self} = BusyLightsUi.NodeWatcher.get_nodes()
@@ -25,6 +28,7 @@ defmodule BusyLightsUiWeb.PageLive do
       |> assign(self: self)
       |> assign(color: bg_color)
       |> assign(status: status)
+
     {:ok, socket}
   end
 
@@ -72,11 +76,11 @@ defmodule BusyLightsUiWeb.PageLive do
       |> assign(lights: color)
       |> assign(color: get_bg_from_color(color))
       |> assign(status: get_status_from_color(color))
+
     {:noreply, socket}
   end
 
   def handle_info({:nodes, {nodes, self}, _change}, socket) do
-
     {:noreply, assign(socket, nodes: nodes, self: self)}
   end
 
@@ -97,5 +101,4 @@ defmodule BusyLightsUiWeb.PageLive do
   defp get_bg_from_color(:white), do: "snow"
   defp get_bg_from_color(:blue), do: "deepskyblue"
   defp get_bg_from_color(:blank), do: "lightslategray"
-
 end
