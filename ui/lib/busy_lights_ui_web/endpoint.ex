@@ -7,14 +7,13 @@ defmodule BusyLightsUiWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_busy_lights_ui_key",
-    signing_salt: "Xlv+nydZ"
+    signing_salt: "nutZqM3G",
+    same_site: "Lax"
   ]
 
-  socket "/socket", BusyLightsUiWeb.UserSocket,
-    websocket: true,
-    longpoll: false
-
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]],
+    longpoll: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -24,7 +23,7 @@ defmodule BusyLightsUiWeb.Endpoint do
     at: "/",
     from: :busy_lights_ui,
     gzip: false,
-    only: ~w(assets fonts images js favicon.ico robots.txt)
+    only: BusyLightsUiWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
