@@ -52,7 +52,7 @@ defmodule BusyLightsFw.Clustering do
     case System.cmd("epmd", ["-daemon"]) do
       {:error, {:already_started, _pid}} -> Logger.info("EPMD Already started")
       {"", 0} -> Logger.info("EPMD Started")
-      _ -> Logger.warn("Unknown EPMD start status")
+      _ -> Logger.warning("Unknown EPMD start status")
     end
     :ok
   end
