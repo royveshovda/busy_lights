@@ -112,6 +112,7 @@ jobs:
         cd fw
         mix local.hex --force
         mix local.rebar --force
+        mix archive.install hex nerves_bootstrap --force
         mix deps.get
         
     - name: Compile
