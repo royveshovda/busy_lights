@@ -1,0 +1,124 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ui-checks:
+    name: UI Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.18.2'
+        otp-version: '27.2.2'
+        
+    - name: Restore dependencies cache
+      uses: actions/cache@v4
+      with:
+        path: ui/deps
+        key: ${{ runner.os }}-ui-mix-${{ hashFiles('ui/mix.lock') }}
+        restore-keys: ${{ runner.os }}-ui-mix-
+        
+    - name: Restore build cache
+      uses: actions/cache@v4
+      with:
+        path: ui/_build
+        key: ${{ runner.os }}-ui-build-${{ hashFiles('ui/mix.lock') }}
+        restore-keys: ${{ runner.os }}-ui-build-
+        
+    - name: Install dependencies
+      run: |
+        cd ui
+        mix local.hex --force
+        mix local.rebar --force
+        mix deps.get
+        
+    - name: Compile
+      run: |
+        cd ui
+        mix compile --warnings-as-errors
+        
+    - name: Set up assets
+      run: |
+        cd ui
+        mix assets.setup
+        
+    - name: Deploy assets
+      run: |
+        cd ui
+        mix assets.deploy
+        
+    - name: Run tests
+      run: |
+        cd ui
+        mix test
+
+  fw-checks:
+    name: Firmware Checks
+    runs-on: ubuntu-latest
+    
+    env:
+      MIX_ENV: prod
+      MIX_TARGET: rpi0
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.18.2'
+        otp-version: '27.2.2'
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential git squashfs-tools pkg-config
+        
+    - name: Restore dependencies cache
+      uses: actions/cache@v4
+      with:
+        path: fw/deps
+        key: ${{ runner.os }}-fw-mix-${{ env.MIX_TARGET }}-${{ hashFiles('fw/mix.lock') }}
+        restore-keys: ${{ runner.os }}-fw-mix-${{ env.MIX_TARGET }}-
+        
+    - name: Restore build cache
+      uses: actions/cache@v4
+      with:
+        path: fw/_build
+        key: ${{ runner.os }}-fw-build-${{ env.MIX_TARGET }}-${{ hashFiles('fw/mix.lock') }}
+        restore-keys: ${{ runner.os }}-fw-build-${{ env.MIX_TARGET }}-
+        
+    - name: Install dependencies
+      run: |
+        cd fw
+        mix local.hex --force
+        mix local.rebar --force
+        mix deps.get
+        
+    - name: Compile
+      run: |
+        cd fw
+        mix compile --warnings-as-errors
+        
+    - name: Build firmware
+      run: |
+        cd fw
+        mix firmware
+        
+    - name: Run tests (host target)
+      env:
+        MIX_TARGET: host
+        MIX_ENV: test
+      run: |
+        cd fw
+        mix deps.get
+        mix test
