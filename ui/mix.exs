@@ -34,12 +34,12 @@ defmodule BusyLightsUi.MixProject do
     [
       {:phoenix, "~> 1.7.19"},
       {:phoenix_html, "~> 4.2"},
-      {:phoenix_live_reload, "~> 1.5.3", only: :dev},
+      {:phoenix_live_reload, "~> 1.6.0", only: :dev},
       {:phoenix_live_view, "~> 1.0.4"},
       {:floki, ">= 0.37.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.6"},
-      {:esbuild, "~> 0.8.2", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2.4", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.10.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.3.1", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
@@ -51,8 +51,8 @@ defmodule BusyLightsUi.MixProject do
       {:telemetry_poller, "~> 1.1"},
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.4.4"},
-      {:dns_cluster, "~> 0.1.3"},
-      {:bandit, "~> 1.6.7"}
+      {:dns_cluster, "~> 0.2.0"},
+      {:bandit, "~> 1.7.0"}
     ]
   end
 
