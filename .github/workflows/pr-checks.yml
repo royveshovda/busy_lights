@@ -11,7 +11,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
@@ -20,19 +20,19 @@ jobs:
         otp-version: '27.2.2'
         
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: '20'
         
     - name: Restore dependencies cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ui/deps
         key: ${{ runner.os }}-ui-mix-${{ hashFiles('ui/mix.lock') }}
         restore-keys: ${{ runner.os }}-ui-mix-
         
     - name: Restore build cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ui/_build
         key: ${{ runner.os }}-ui-build-${{ hashFiles('ui/mix.lock') }}
@@ -75,7 +75,7 @@ jobs:
       
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
@@ -99,14 +99,14 @@ jobs:
         ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C "ci@github-actions"
         
     - name: Restore dependencies cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: fw/deps
         key: ${{ runner.os }}-fw-mix-${{ env.MIX_TARGET }}-${{ hashFiles('fw/mix.lock') }}
         restore-keys: ${{ runner.os }}-fw-mix-${{ env.MIX_TARGET }}-
         
     - name: Restore build cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: fw/_build
         key: ${{ runner.os }}-fw-build-${{ env.MIX_TARGET }}-${{ hashFiles('fw/mix.lock') }}
